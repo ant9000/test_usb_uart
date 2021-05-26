@@ -1,0 +1,15 @@
+diff --git a/sys/usb/usbus/cdc/acm/cdc_acm_stdio.c b/sys/usb/usbus/cdc/acm/cdc_acm_stdio.c
+index 568eddf703..08a16fa526 100644
+--- a/sys/usb/usbus/cdc/acm/cdc_acm_stdio.c
++++ b/sys/usb/usbus/cdc/acm/cdc_acm_stdio.c
+@@ -76,7 +76,9 @@ static void _cdc_acm_rx_pipe(usbus_cdcacm_device_t *cdcacm,
+ {
+     (void)cdcacm;
+     for (size_t i = 0; i < len; i++) {
+-        isrpipe_write_one(&_cdc_stdio_isrpipe, data[i]);
++        if (isrpipe_write_one(&_cdc_stdio_isrpipe, data[i]) < 0) {
++            LED0_ON;
++        }
+     }
+ }
+ 
